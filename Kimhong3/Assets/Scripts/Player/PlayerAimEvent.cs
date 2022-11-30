@@ -20,7 +20,6 @@ public class PlayerAimEvent : MonoBehaviour
                 hit.collider?.GetComponent<ChangeEnemyTargetAim>().ChangeAimImage();
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log(hit.collider.transform.position);
                     LineRenderer lineRenderer;
                     onShooting.Invoke();
                 }

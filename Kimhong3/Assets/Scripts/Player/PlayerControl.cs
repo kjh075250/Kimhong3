@@ -12,11 +12,6 @@ public class PlayerControl : MonoBehaviour
 
     public bool isDashing = false;
 
-    public List<WheelCollider> wheelColliders;
-
-    public float maxMotorTorque;
-    public float downForceValue;
-
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -24,40 +19,21 @@ public class PlayerControl : MonoBehaviour
     }
     public void FixedUpdate()
     {
-        AddDownForce();
-        WheelControl();
+        Move();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Dash();
         }
     }
-    //void Move()
-    //{
-    //    Vector3 moveVec = new Vector3(0, transform.position.y, Input.GetAxis("Vertical") * 5f);
-    //    rigidbody.AddForce(moveVec, ForceMode.Acceleration);
-    //}
-    void WheelControl()
+    void Move()
     {
-        wheelColliders[1].motorTorque = Input.GetAxis("Vertical") * maxMotorTorque;
-        wheelColliders[0].motorTorque = Input.GetAxis("Vertical") * maxMotorTorque;
-        wheelColliders[1].steerAngle = Input.GetAxisRaw("Horizontal") * 45f;
-        wheelColliders[0].steerAngle = Input.GetAxisRaw("Horizontal") * 45f;
-        if(Input.GetKey(KeyCode.LeftShift))
-        {
-            wheelColliders[0].brakeTorque = 100f;
-            wheelColliders[1].brakeTorque = 100f;
-        }
-        else
-        {
-            wheelColliders[0].brakeTorque = 0f;
-            wheelColliders[1].brakeTorque = 0f;
-        }
+       
+        Vector3 horVec = new Vector3(Input.GetAxisRaw("Horizontal") * 10f, transform.position.y, transform.position.z);
+        Vector3 rotateVec = new Vector3(0, 0, Input.GetAxisRaw("Horizontal") * 30f);
+        transform.DOMoveX(transform.position.x + horVec.x, 1f, false);
+        transform.DORotate(-rotateVec, 0.7f);
     }
 
-    void AddDownForce()
-    {
-        rigidbody.AddForce(-transform.up * downForceValue * rigidbody.velocity.magnitude);
-    }
     void Dash()
     {
         if (isDashing) return;
@@ -68,7 +44,6 @@ public class PlayerControl : MonoBehaviour
     IEnumerator Dashing()
     {
         isDashing = true;
-        rigidbody.useGravity = false;
         transform.DOMoveY(transform.position.y + 2f, 0.5f, false);
         transform.DOLookAt(dashTargetPos, 0.7f, AxisConstraint.None);
         rigidbody.velocity = rigidbody.velocity * 0.5f;
@@ -79,15 +54,10 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.2f);
 
         rigidbody.freezeRotation = false;
-        rigidbody.useGravity = true;
         rigidbody.velocity = rigidbody.velocity * 0.1f;
         isDashing = false;
     }
 
-    public void ConfigureVehicleSubsteps(float speedThreshold, int stepsBelowThreshold, int stepsAboveThreshold)
-    {
-
-    }
     private void OnCollisionEnter(Collision collision)
     {
         if (!isDashing) return;
