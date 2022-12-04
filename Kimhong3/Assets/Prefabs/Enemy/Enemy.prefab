@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1750193429358080955}
   - component: {fileID: 1750193429358080954}
   - component: {fileID: 1750193429358080958}
+  - component: {fileID: -4631369803378016274}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6d513f0eaa0abe24881e2564653624af, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,3 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f119bdfe25802b4fb635abc8d51e8b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4631369803378016274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750193429358080949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9db1802888da8448971901cb54b33fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1177817330178877351, guid: 431e88d74d5cf194b8fe9ba6647b4d8d, type: 3}

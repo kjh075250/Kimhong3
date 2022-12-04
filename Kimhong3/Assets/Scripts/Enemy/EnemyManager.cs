@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        Invoke("SetPos", 5f);
+        InvokeRepeating("SetPos", 5f, 5f);
     }
     private void Update()
     {
@@ -21,9 +21,9 @@ public class EnemyManager : MonoBehaviour
 
     private void SetPos()
     {
-        transform.position = new Vector3((Random.Range(-22f, 24f)), (Random.Range(10f, 24f)), player.transform.position.z + 30);
+        //transform.position = new Vector3((Random.Range(-22f, 24f)), (Random.Range(10f, 24f)), player.transform.position.z + 30);
+        transform.position = new Vector3(12f, 7f, player.transform.position.z + 30);
         StartCoroutine("SummonEnemy");
-
     }
 
     IEnumerator SummonEnemy()
