@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     GameObject player;
+    public GameObject Player => player;
 
     //맵 무한 반복 로직에 쓸 오브젝트
     public GameObject LastMapObject;
@@ -38,13 +39,17 @@ public class GameManager : MonoBehaviour
     {
         return Mathf.Clamp(Mathf.Abs(LastMapObject.GetComponent<Rigidbody>().velocity.z),0, Mathf.Infinity);
     }
+    public void DecreaseThunderGage(float value)
+    {
+        thunderGage -= value;
+    }
     IEnumerator SetThunderGage()
     {
         while(true)
         {
-            thunderGage += 1f + Mathf.Clamp(GetSpeed() * 0.005f,0,4);
-            Mathf.Clamp(thunderGage, 0, 100);
-            yield return new WaitForSeconds(1f);
+            thunderGage += 0.1f + Mathf.Clamp(GetSpeed() * 0.005f, 0, 0.4f);
+            thunderGage = Mathf.Clamp(thunderGage, 0, 100);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

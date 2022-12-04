@@ -20,18 +20,27 @@ public class PlayerControl : MonoBehaviour
     public void FixedUpdate()
     {
         Move();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Dash();
-        }
     }
     void Move()
     {
-       
         Vector3 horVec = new Vector3(Input.GetAxisRaw("Horizontal") * 10f, transform.position.y, transform.position.z);
         Vector3 rotateVec = new Vector3(0, 0, Input.GetAxisRaw("Horizontal") * 30f);
         transform.DOMoveX(transform.position.x + horVec.x, 1f, false);
         transform.DORotate(-rotateVec, 0.7f);
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position,-transform.up,out hit, 100f,LayerMask.GetMask("Ground")))
+        {
+            float PlayerY = hit.point.y + 2f;
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                PlayerY = hit.point.y + 0.4f;
+            }
+            if (Input.GetKey(KeyCode.Space))
+            {
+                PlayerY = hit.point.y + 5f;
+            }
+            transform.DOMoveY(PlayerY, 0.2f);
+        }
     }
 
     void Dash()
@@ -40,7 +49,6 @@ public class PlayerControl : MonoBehaviour
         dashTargetPos = dashTarget.position;
         StartCoroutine(Dashing());
     }
-
     IEnumerator Dashing()
     {
         isDashing = true;
@@ -65,6 +73,12 @@ public class PlayerControl : MonoBehaviour
         {
             Debug.Log("Hit");
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, -transform.up * 2f);
     }
 }
 

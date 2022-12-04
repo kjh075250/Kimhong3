@@ -18,7 +18,6 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         gageImage.fillAmount = GameManager.Instance.ThunderGage * 0.01f;
-        Debug.Log(gageImage.fillAmount);
         speedText.text = "현재 속도 : " + GameManager.Instance.GetSpeed();
     }
 }
