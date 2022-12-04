@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class FollowObject : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class FollowObject : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = trans.position;
+        transform.DOMoveX(trans.position.x,0.1f);
+        transform.DOMoveY(trans.position.y,0.5f);
+        transform.DOMoveZ(trans.position.z,0.1f);
+
     }
 }

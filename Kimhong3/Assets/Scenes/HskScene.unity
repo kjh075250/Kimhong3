@@ -661,6 +661,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3817b979a6f6aaf45a208d739ae30013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1435503205}
+  LastMapObject: {fileID: 1378192616}
 --- !u!1 &499807539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,11 +1515,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashTarget: {fileID: 108085268}
   isDashing: 0
-  wheelColliders:
-  - {fileID: 1111970689}
-  - {fileID: 1916316916}
-  maxMotorTorque: 450000
-  downForceValue: 5
 --- !u!65 &1435503209
 BoxCollider:
   m_ObjectHideFlags: 0
