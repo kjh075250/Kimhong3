@@ -6,26 +6,38 @@ public class EnemyFSM : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
-    private Transform parentPos;
+    [SerializeField]
+    private GameObject bullet;
+
     private float distance;
+    private LineRenderer lr;
+    private float curTime = 0f;
 
     private void Start()
     {
-        parentPos = GetComponentInParent<Transform>();
-        distance = GetDistance(player.transform.position.x, player.transform.position.y,
-            this.transform.position.x, this.transform.position.y);
         StartCoroutine(MovingSinCos());
+
+        lr = GetComponent<LineRenderer>();
+        lr.startWidth = .05f;
+        lr.endWidth = .05f;
+        lr.enabled = false;
+
+        StartCoroutine(Attack());
     }
 
     void Update()
     {
+        curTime += Time.deltaTime;
     }
 
     public IEnumerator MovingSinCos()
     {
+        int th = Random.Range(-1, 358);
+        distance = GetDistance(player.transform.position.x, player.transform.position.y, 
+            this.transform.position.x, this.transform.position.y);
         while (true)
         {
-            for (int th = 0; th < 360; th++)
+            for (th += 1; th < 360 + th; th++)
             {
                 var rad = Mathf.Deg2Rad * th;
                 var x = distance * Mathf.Sin(rad);
@@ -47,4 +59,21 @@ public class EnemyFSM : MonoBehaviour
         return distance;
     }
 
+    public IEnumerator Attack()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(3f, 6f));
+            lr.enabled = true;
+            while (true)
+            {
+                lr.SetPosition(0, transform.position);
+                lr.SetPosition(1, GameManager.Instance.Player.transform.position);
+                if (curTime >= 5f) break;
+                yield return null;
+            }
+            lr.enabled = false;
+            Instantiate(bullet, transform);
+        }
+    }
 }
