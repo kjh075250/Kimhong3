@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/HskScene.unity
+- path: Assets/SciFiWarriorPBRHPPolyart/Scene/DemoScene01.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

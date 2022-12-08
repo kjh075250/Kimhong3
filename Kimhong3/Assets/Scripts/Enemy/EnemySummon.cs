@@ -12,7 +12,7 @@ public class EnemySummon : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("SetPos", 5f, 5f);
+        InvokeRepeating("SetPos", 5f, 15f);
     }
     private void Update()
     {
@@ -22,7 +22,6 @@ public class EnemySummon : MonoBehaviour
     private void SetPos()
     {
         transform.position = new Vector3((Random.Range(18f, 25f)), (Random.Range(6f, 15f)), player.transform.position.z + 30);
-        //transform.position = new Vector3(12f, 7f, player.transform.position.z + 30);
         StartCoroutine("SummonEnemy");
     }
 

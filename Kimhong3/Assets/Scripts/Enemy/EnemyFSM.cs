@@ -8,28 +8,23 @@ public class EnemyFSM : MonoBehaviour
     private GameObject player;
     [SerializeField]
     private GameObject bullet;
-    private Transform parentPos;
+
     private float distance;
     private LineRenderer lr;
-    private Vector3 cube1Pos, cube2Pos;
-    private float curTime;
+    private float curTime = 0f;
 
     private void Start()
     {
-        parentPos = GetComponentInParent<Transform>();
         StartCoroutine(MovingSinCos());
 
         lr = GetComponent<LineRenderer>();
-        lr.startWidth = 0.5f;
-        lr.endWidth = 0.5f;
-        lr.startColor = Color.red;
-        lr.endColor = Color.red;
+        lr.startWidth = .05f;
+        lr.endWidth = .05f;
+        lr.enabled = false;
 
-        cube1Pos = gameObject.GetComponent<Transform>().position;
         StartCoroutine(Attack());
     }
 
-    // Update is called once per frame
     void Update()
     {
         curTime += Time.deltaTime;
@@ -37,11 +32,12 @@ public class EnemyFSM : MonoBehaviour
 
     public IEnumerator MovingSinCos()
     {
+        int th = Random.Range(-1, 358);
         distance = GetDistance(player.transform.position.x, player.transform.position.y, 
             this.transform.position.x, this.transform.position.y);
         while (true)
         {
-            for (int th = 0; th < 360; th++)
+            for (th += 1; th < 360 + th; th++)
             {
                 var rad = Mathf.Deg2Rad * th;
                 var x = distance * Mathf.Sin(rad);
@@ -65,18 +61,19 @@ public class EnemyFSM : MonoBehaviour
 
     public IEnumerator Attack()
     {
-        yield return new WaitForSeconds(4f);
-        lr.enabled = true;
         while (true)
         {
-            lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, GameManager.Instance.Player.transform.position);
-            if (curTime >= 5f)
+            yield return new WaitForSeconds(Random.Range(3f, 6f));
+            lr.enabled = true;
+            while (true)
             {
-                lr.enabled = false;
-                Instantiate(bullet, transform);
-                break;
-            }   
+                lr.SetPosition(0, transform.position);
+                lr.SetPosition(1, GameManager.Instance.Player.transform.position);
+                if (curTime >= 5f) break;
+                yield return null;
+            }
+            lr.enabled = false;
+            Instantiate(bullet, transform);
         }
     }
 }
