@@ -8,16 +8,22 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance => instance;
 
+    MapManager mapManager;
+    UIManager uiManager;
+
     [SerializeField]
     GameObject player;
     public GameObject Player => player;
-
-    //맵 무한 반복 로직에 쓸 오브젝트
-    public GameObject LastMapObject;
+    [SerializeField]
+    GameObject boss;
+    public GameObject Boss => boss;
 
     //기술 쓸 때 필요한 에너지
     float thunderGage;
     public float ThunderGage => thunderGage;
+
+    public enum PlayerState { normal, overdrive };
+    public PlayerState playerState = PlayerState.normal;
 
     void Awake()
     {
@@ -25,29 +31,47 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-    }
-    void Start()
-    {
+        mapManager = GetComponent<MapManager>();
+        uiManager = GetComponent<UIManager>();
         thunderGage = 0;
-        StartCoroutine(SetThunderGage());
+        playerState = PlayerState.normal;
     }
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            thunderGage = 80;
+        }
+        if(thunderGage >= 99 && Input.GetKey(KeyCode.F))
+        {
+            playerState = PlayerState.overdrive;
+        }
+        else if(thunderGage <= 1)
+        {
+            playerState = PlayerState.normal;
+        }
     }
 
     public float GetSpeed()
     {
-        return Mathf.Clamp(Mathf.Abs(LastMapObject.GetComponent<Rigidbody>().velocity.z),0, Mathf.Infinity);
+        return Mathf.Clamp(Mathf.Abs(mapManager.lastObject.GetComponent<Rigidbody>().velocity.z),0, Mathf.Infinity);
     }
     public void DecreaseThunderGage(float value)
     {
         thunderGage -= value;
     }
-    IEnumerator SetThunderGage()
+    public IEnumerator SetThunderGage()
     {
         while(true)
         {
-            thunderGage += 0.1f + Mathf.Clamp(GetSpeed() * 0.005f, 0, 0.4f);
+            if(playerState == PlayerState.normal)
+            {
+                thunderGage += 0.1f + Mathf.Clamp(GetSpeed() * 0.005f, 0, 0.4f);
+            }
+            else if(playerState == PlayerState.overdrive)
+            {
+                thunderGage -= 0.1f + Mathf.Clamp(GetSpeed() * 0.005f, 0, 0.4f);
+            }
             thunderGage = Mathf.Clamp(thunderGage, 0, 100);
             yield return new WaitForSeconds(0.1f);
         }

@@ -22,7 +22,6 @@ public abstract class State<T>
     public virtual void OnStart() { }  
     public abstract void OnUpdate(float deltaTime); 
     public virtual void OnEnd() { }
-
 }
  
 public sealed class StateMachine<T>

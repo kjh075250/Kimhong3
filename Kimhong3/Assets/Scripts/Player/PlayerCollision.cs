@@ -6,9 +6,16 @@ public class PlayerCollision : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.CompareTag("Obstacle"))
+        if (collision.collider.CompareTag("Obstacle"))
         {
-            Debug.Log("Die");
+            if(GameManager.Instance.playerState == GameManager.PlayerState.normal)
+            {
+                Debug.Log("Die");
+            }
+            else
+            {
+                Debug.Log("Break");
+            }
         }
     }
 }

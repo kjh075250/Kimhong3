@@ -12,10 +12,10 @@ public class DroneBossIntro : MonoBehaviour
 
     IEnumerator BossIntroMove()
     {
-        Vector3 introVec = new Vector3(transform.position.x, transform.position.y, 500);
+        Vector3 introVec = new Vector3(transform.position.x, transform.position.y, 200);
         Tween tween = transform.DOMove(introVec, 4f, false);
         yield return tween.WaitForCompletion();
-        introVec = new Vector3(transform.position.x, 30f, 120f);
+        //introVec = new Vector3(transform.position.x, 30f, 120f);
     }
     void Update()
     {

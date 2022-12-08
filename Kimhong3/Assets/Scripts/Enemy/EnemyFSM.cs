@@ -12,21 +12,13 @@ public class EnemyFSM : MonoBehaviour
     private void Start()
     {
         parentPos = GetComponentInParent<Transform>();
-        distance = GetDistance(player.transform.position.x, player.transform.position.y, this.transform.position.x, this.transform.position.y) * 28;
-        Debug.Log(distance);
+        distance = GetDistance(player.transform.position.x, player.transform.position.y,
+            this.transform.position.x, this.transform.position.y);
         StartCoroutine(MovingSinCos());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        EnemyMove();
-    }
-
-    void EnemyMove()
-    {
-        Vector3 rotateVec = new Vector3(transform.position.x, transform.position.y, transform.position.z + Input.GetAxisRaw("Horizontal") * 30f);
-        transform.position = rotateVec;
     }
 
     public IEnumerator MovingSinCos()

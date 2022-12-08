@@ -14,7 +14,6 @@ public class FollowCam : MonoBehaviour
     {
         SetRotation();
     }
-    
     void SetRotation()
     {
         mouseVec.x = Input.GetAxis("Mouse X");

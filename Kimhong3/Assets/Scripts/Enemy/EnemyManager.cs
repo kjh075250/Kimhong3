@@ -21,8 +21,8 @@ public class EnemyManager : MonoBehaviour
 
     private void SetPos()
     {
-        //transform.position = new Vector3((Random.Range(-22f, 24f)), (Random.Range(10f, 24f)), player.transform.position.z + 30);
-        transform.position = new Vector3(12f, 7f, player.transform.position.z + 30);
+        transform.position = new Vector3((Random.Range(18f,25f)), (Random.Range(6f, 15f)), player.transform.position.z + 30);
+        //transform.position = new Vector3(12f, 7f, player.transform.position.z + 30);
         StartCoroutine("SummonEnemy");
     }
 
