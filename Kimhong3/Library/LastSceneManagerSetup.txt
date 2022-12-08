@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/SciFiWarriorPBRHPPolyart/Scene/DemoScene01.unity
+=======
+- path: Assets/Scenes/KjhScene.unity
+>>>>>>> Kjh
   isLoaded: 1
   isActive: 1
   isSubScene: 0

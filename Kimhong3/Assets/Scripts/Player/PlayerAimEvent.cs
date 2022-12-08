@@ -18,16 +18,13 @@ public class PlayerAimEvent : MonoBehaviour
             if(hit.collider.CompareTag("TargetAim"))
             {
                 hit.collider?.GetComponent<ChangeEnemyTargetAim>().ChangeAimImage();
-                if (Input.GetMouseButtonDown(0) && GameManager.Instance.ThunderGage >= 20f)
+                if (Input.GetMouseButtonDown(0) && GameManager.Instance.ThunderGage >= 5f)
                 {
-                    GameManager.Instance.DecreaseThunderGage(20f);
+                    GameManager.Instance.DecreaseThunderGage(5f);
                     LineRenderer lineRenderer;
                     onShooting.Invoke();
                 }
             }
-
         }
-        
     }
-
 }
