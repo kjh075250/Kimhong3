@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class BossMove : MonoBehaviour
 {
-    Transform player;
-    void Start()
-    {
-        player = GameManager.Instance.Player.transform;
-    }
 
     void Update()
     {
-        if (transform.position.z > 50)
+        if (transform.position.z > 30)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + Time.deltaTime * (15f - GameManager.Instance.GetSpeed() * 0.03f));
-
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + Time.deltaTime * (80f - GameManager.Instance.GetSpeed() * 0.09f));
         }
     }
 }

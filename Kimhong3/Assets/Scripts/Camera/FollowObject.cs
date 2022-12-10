@@ -9,8 +9,8 @@ public class FollowObject : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.DOMoveX(trans.position.x,0.2f);
+        transform.DOMoveX(trans.position.x,0.3f);
         transform.DOMoveY(trans.position.y,0.5f);
-        transform.DOMoveZ(trans.position.z,0.2f);
+        transform.DOMoveZ(trans.position.z,2f);
     }
 }

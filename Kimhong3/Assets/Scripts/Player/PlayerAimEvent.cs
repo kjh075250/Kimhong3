@@ -9,6 +9,11 @@ public class PlayerAimEvent : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && GameManager.Instance.ThunderGage >= 5f)
+        {
+            GameManager.Instance.DecreaseThunderGage(5f);
+            onShooting.Invoke();
+        }
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction * 1000, Color.yellow);
@@ -21,7 +26,7 @@ public class PlayerAimEvent : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) && GameManager.Instance.ThunderGage >= 5f)
                 {
                     GameManager.Instance.DecreaseThunderGage(5f);
-                    LineRenderer lineRenderer;
+                    GameManager.Instance.DecreaseThunderGage(-15f);
                     onShooting.Invoke();
                 }
             }

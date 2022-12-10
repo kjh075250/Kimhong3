@@ -7,22 +7,20 @@ public class PlayerControl : MonoBehaviour
 {
 
     private Rigidbody rigidbody;
+    WaitForSeconds wait;
     Vector3 dashTargetPos;
-    public bool isDashing = false;
-
+    protected bool isDashing = false;
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        wait = new WaitForSeconds(2f);
     }
-    public void FixedUpdate()
-    {
-        Move();
-    }
+
     void Move()
     {
-        Vector3 horVec = new Vector3(Input.GetAxisRaw("Horizontal") * 15f, transform.position.y, transform.position.z);
+        Vector3 horVec = new Vector3(Input.GetAxis("Horizontal") * 15f, transform.position.y, transform.position.z);
         Vector3 rotateVec = new Vector3(0, 0, Input.GetAxisRaw("Horizontal") * 30f);
-        transform.DOMoveX(transform.position.x + horVec.x, 1f, false);
+        transform.Translate(horVec * Time.deltaTime * 2.5f);
         transform.DORotate(-rotateVec, 0.7f);
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, 100f, LayerMask.GetMask("Ground")))
@@ -45,6 +43,7 @@ public class PlayerControl : MonoBehaviour
     }
     private void Update()
     {
+        Move();
         if (GameManager.Instance.playerState == GameManager.PlayerState.overdrive)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Space))
@@ -58,16 +57,16 @@ public class PlayerControl : MonoBehaviour
     {
         if (isDashing)
         {
-            Debug.Log("´ë½¬ ÄðÅÁ¤±");
             return;
         }
         StartCoroutine(Dashing());
     }
+
     IEnumerator Dashing()
     {
         isDashing = true;
-        Debug.Log("´ë½¬");
-        yield return new WaitForSeconds(1f);
+        transform.DOMoveZ(20f, 0.2f).OnComplete(()=> transform.DOMoveZ(0f, 1.5f));
+        yield return wait;
         isDashing = false;
     }
 

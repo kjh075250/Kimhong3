@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class stateSecondAttack : State<BossFSM>
 {
+    float time;
     public override void OnAwake()
     {
 
     }
     public override void OnStart()
     {
-
+        time = 0;
+        GameManager.Instance._MapManager.SwitchMap();
     }
     public override void OnUpdate(float deltaTime)
     {
-        Debug.Log("2¹ø");
+        time += deltaTime;
+
+        if (time > 5f)
+        {
+            stateMachine.ChangeState<stateIdle>();
+        }
     }
     public override void OnEnd()
     {

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Maps
   m_EditorClassIdentifier: 
   map_Default: {fileID: 959558400788689041, guid: 1baab034323ac1345bc3e57a0ac60152, type: 3}
-  map_SlideObstacle: {fileID: 6754220382840395087, guid: e64b9a93f7c5e2044a1153a31bec008d, type: 3}
-  map_JumpObstacle: {fileID: 4064038664004345232, guid: 7dd3a3db73f3d8242abf5b4f74fe9fe5, type: 3}
+  map_SlideObstacle: {fileID: 7566743272467179186, guid: eb4271d6d60c233409fd3a1f3a08a031, type: 3}
+  map_JumpObstacle: {fileID: 7566743272467179186, guid: 4dbfd500f81fdb94da30e06afb76e529, type: 3}
   map_BossObstacle: {fileID: 4064038664004345232, guid: bd12526e0650f264eb38c5e08db275ca, type: 3}
