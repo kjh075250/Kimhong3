@@ -12,6 +12,7 @@ public class EnemyFSM : MonoBehaviour
     private float distance;
     private LineRenderer lr;
     private float curTime = 0f;
+    private RaycastHit hit;
 
     private void Start()
     {
@@ -61,6 +62,10 @@ public class EnemyFSM : MonoBehaviour
 
     public IEnumerator Attack()
     {
+        if (Physics.Raycast(transform.position, GameManager.Instance.Player.transform.position, out hit, 30f))
+        {
+            //hit.transform.gameObject.CompareTag()
+        }
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(3f, 6f));

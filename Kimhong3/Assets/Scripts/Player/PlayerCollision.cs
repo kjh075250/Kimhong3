@@ -18,4 +18,14 @@ public class PlayerCollision : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        float tg = GameManager.Instance.thunderGage;
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            tg = Mathf.Clamp(tg, 0f, 100f);
+            tg -= 30f;
+            GameManager.Instance.thunderGage = tg;
+        }
+    }
 }

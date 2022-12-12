@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     WaitForSeconds wait;
     //기술 쓸 때 필요한 에너지
-    float thunderGage;
+    public float thunderGage;
     public float ThunderGage => thunderGage;
 
     public enum PlayerState { normal, overdrive };
@@ -76,16 +76,16 @@ public class GameManager : MonoBehaviour
     }
     public IEnumerator SetThunderGage()
     {
-        while(true)
+        while (true)
         {
-            if(playerState == PlayerState.normal)
+            if (playerState == PlayerState.normal)
             {
                 thunderGage += 0.1f + Mathf.Clamp(GetSpeed() * 0.005f, 0, 0.4f);
                 light.color = Color.black;
 
 
             }
-            else if(playerState == PlayerState.overdrive)
+            else if (playerState == PlayerState.overdrive)
             {
                 thunderGage -= 0.5f + Mathf.Clamp(GetSpeed() * 0.005f, 0, 0.4f);
                 light.color = dashColor;

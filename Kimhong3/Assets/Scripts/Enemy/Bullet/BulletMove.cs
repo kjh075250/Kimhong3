@@ -16,8 +16,8 @@ public class BulletMove : MonoBehaviour
 
     void Update()
     {
-        //transform.DOMove(plaPos, 0.6f);
-        transform.position = Vector3.MoveTowards(transform.position, plaPos, 0.7f);
+        transform.DOMove(plaPos, 0.6f);
+        //transform.position = Vector3.MoveTowards(transform.position, plaPos, 0.7f);
     }
 
     void Die()
