@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //간단한 싱글톤(나중에 시간되면 바꿀게)
     private static GameManager instance;
     public static GameManager Instance => instance;
 
@@ -16,24 +16,32 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject player;
     public GameObject Player => player;
+
     [SerializeField]
     GameObject boss;
     public GameObject Boss => boss;
 
+    float playerBossDistance;
+    public float PlayerBossDistance => playerBossDistance;
+
     public UnityEvent cameraShake;
+    public UnityEvent playerShake;
+
     public BossObsSO obsSO;
     public GameObject[] bossObs;
 
     WaitForSeconds wait;
+
     //기술 쓸 때 필요한 에너지
     public float thunderGage;
     public float ThunderGage => thunderGage;
 
-    public enum PlayerState { normal, overdrive };
+    public enum PlayerState { normal, overdrive, godMod };
     public PlayerState playerState = PlayerState.normal;
 
     public Light light;
     public Color dashColor;
+
     void Awake()
     {
         if(instance == null)
@@ -51,25 +59,33 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+        playerBossDistance = Vector3.Distance(player.transform.position, boss.transform.position);
+
         if(Input.GetKeyDown(KeyCode.M))
         {
             thunderGage = 90;
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("KjhScene");
+            Time.timeScale = 1;
         }
         if(thunderGage >= 99 && Input.GetKey(KeyCode.F))
         {
             playerState = PlayerState.overdrive;
         }
-        else if(thunderGage <= 1)
+        else if(thunderGage <= 1 && playerState == PlayerState.overdrive)
         {
-            playerState = PlayerState.normal;
+            StartCoroutine(GodMod());
         }
-
     }
+
 
     public float GetSpeed()
     {
         return Mathf.Clamp(Mathf.Abs(mapManager.lastObject.GetComponent<Rigidbody>().velocity.z),0, Mathf.Infinity);
     }
+
     public void DecreaseThunderGage(float value)
     {
         thunderGage -= value;
@@ -82,8 +98,6 @@ public class GameManager : MonoBehaviour
             {
                 thunderGage += 0.1f + Mathf.Clamp(GetSpeed() * 0.005f, 0, 0.4f);
                 light.color = Color.black;
-
-
             }
             else if (playerState == PlayerState.overdrive)
             {
@@ -93,5 +107,16 @@ public class GameManager : MonoBehaviour
             thunderGage = Mathf.Clamp(thunderGage, 0, 100);
             yield return wait;
         }
+    }
+
+    IEnumerator GodMod()
+    {
+        playerState = PlayerState.godMod;
+        yield return new WaitForSeconds(1f);
+        playerState = PlayerState.normal;
+    }
+    public void GameOver()
+    {
+        uiManager.GameOverImage();
     }
 }

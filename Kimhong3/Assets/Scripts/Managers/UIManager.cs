@@ -7,9 +7,13 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     Text speedText;
-
+    [SerializeField]
+    Image speedImage;
     [SerializeField]
     Image gageImage;
+    [SerializeField]
+    Image gameOverImage;
+
     void Start()
     {
 
@@ -18,6 +22,13 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         gageImage.fillAmount = GameManager.Instance.ThunderGage * 0.01f;
-        speedText.text = "현재 속도 : " + GameManager.Instance.GetSpeed();
+        speedText.text = GameManager.Instance.GetSpeed().ToString();
+        speedImage.fillAmount = GameManager.Instance.GetSpeed() * 0.001f;
     }
+
+    public void GameOverImage()
+    {
+        gameOverImage.gameObject.SetActive(true);
+    }
+
 }

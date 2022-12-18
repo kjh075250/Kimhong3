@@ -26,6 +26,6 @@ public class CameraEffect : MonoBehaviour
             maxFov = 70f;
         }
         float fov = Mathf.Clamp(40 + GameManager.Instance.GetSpeed() * 0.05f, 40, maxFov);
-        cam.DOFieldOfView(fov, 1f);
+        cam.fieldOfView = fov;
     }
 }

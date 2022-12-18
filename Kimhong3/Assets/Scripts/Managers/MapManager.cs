@@ -37,7 +37,7 @@ public class MapManager : MonoBehaviour
             index = Random.Range(0, 2);
         }
         else
-        {
+        {   
             index = 5;
         }
         maps[firstMap].transform.position = new Vector3(lastObject.transform.position.x, lastObject.transform.position.y, lastObject.transform.position.z + 150f);

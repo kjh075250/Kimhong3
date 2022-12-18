@@ -9,7 +9,7 @@ public class BossMove : MonoBehaviour
     {
         if (transform.position.z > 30)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + Time.deltaTime * (80f - GameManager.Instance.GetSpeed() * 0.09f));
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + Time.deltaTime * (60f - GameManager.Instance.GetSpeed() * 0.1f));
         }
     }
 }
