@@ -28,7 +28,7 @@ public class EnemyFSM : MonoBehaviour
 
     void Update()
     {
-        curTime += Time.deltaTime;
+
     }
 
     public IEnumerator MovingSinCos()
@@ -62,23 +62,30 @@ public class EnemyFSM : MonoBehaviour
 
     public IEnumerator Attack()
     {
-        if (Physics.Raycast(transform.position, GameManager.Instance.Player.transform.position, out hit, 30f))
-        {
-            //hit.transform.gameObject.CompareTag()
-        }
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(3f, 6f));
+            yield return new WaitForSeconds(Random.Range(2f, 5f));
             lr.enabled = true;
             while (true)
             {
                 lr.SetPosition(0, transform.position);
                 lr.SetPosition(1, GameManager.Instance.Player.transform.position);
-                if (curTime >= 5f) break;
+                curTime += Time.deltaTime;
+                if (curTime >= 1.5f)
+                {
+                    curTime = 0f;
+                    break;
+                }
                 yield return null;
             }
             lr.enabled = false;
-            Instantiate(bullet, transform);
+            var bullet = ObjectPoolManager.GetBullet();
+            bullet.transform.position = transform.position;
         }
+    }
+
+    private void Die()
+    {
+        ObjectPoolManager.ReturnEnemy(gameObject);
     }
 }

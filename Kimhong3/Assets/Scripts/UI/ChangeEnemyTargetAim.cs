@@ -14,10 +14,12 @@ public class ChangeEnemyTargetAim : MonoBehaviour
         myImage = GetComponent<Image>();
         myImage.sprite = aimpoint.TargetImageDefault;
     }
+
     private void FixedUpdate()
     {
         myImage.sprite = aimpoint.TargetImageDefault;
     }
+
     public void ChangeAimImage()
     {
         myImage.sprite = aimpoint.TargetImageOnAim;

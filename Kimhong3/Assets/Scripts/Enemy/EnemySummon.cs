@@ -6,8 +6,6 @@ public class EnemySummon : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
-    [SerializeField]
-    private GameObject enemy_1;
     public int limit = 5;
 
     private void Start()
@@ -29,7 +27,8 @@ public class EnemySummon : MonoBehaviour
     {
         for (int i = 0; i < limit; i++)
         {
-            GameObject.Instantiate(enemy_1, gameObject.transform);
+            var enemy = ObjectPoolManager.GetEnemy();
+            enemy.transform.position = transform.position;
             yield return new WaitForSeconds(0.2f);
         }
     }

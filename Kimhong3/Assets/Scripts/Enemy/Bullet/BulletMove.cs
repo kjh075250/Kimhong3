@@ -22,11 +22,19 @@ public class BulletMove : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnBullet(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Die();
+        if (other.gameObject.CompareTag("Player"))
+        {
+            //other.gameObject.BroadcastMessage("", SendMessageOptions.RequireReceiver);
+            Die();
+        }
+        else
+        {
+            Die();
+        }
     }
 }
