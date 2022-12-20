@@ -30,11 +30,10 @@ public class MapControl : MonoBehaviour
     public void SpawnObstacle(int index)
     {
         obs[0].transform.DOMoveY(0, 0);
-        obs[1].transform.DOMoveY(10, 0);
+        obs[1].transform.DOMoveY(8, 0);
         for(int i = 0; i < obsCount; i++)
         {
             obs[i].SetActive(false);
-
         }
         switch (index)
         {
@@ -58,11 +57,11 @@ public class MapControl : MonoBehaviour
     }
     IEnumerator SwitchCoroutine()
     {
-        if (nowObs.transform.position.y < 10)
+        if (nowObs.transform.position.y < 8)
         {
             nowObs.transform.DOShakePosition(1f, 2f, 10, 90);
             yield return wait;
-            nowObs.transform.DOMoveY(10, 0.07f);
+            nowObs.transform.DOMoveY(8, 0.07f);
             GameManager.Instance.cameraShake.Invoke();
         }
         else
@@ -70,6 +69,7 @@ public class MapControl : MonoBehaviour
             nowObs.transform.DOShakePosition(1f, 2f, 10, 90);
             yield return wait;
             nowObs.transform.DOMoveY(0, 0.07f);
+            nowObs.GetComponent<ParticleSystem>().Play();
             GameManager.Instance.cameraShake.Invoke();
         }
     }
@@ -77,17 +77,17 @@ public class MapControl : MonoBehaviour
     {
         Vector3 moveVec = new Vector3(0, 0, Input.GetAxis("Vertical") * 300f);
         rb.AddForce(-moveVec, ForceMode.Acceleration);
-        float minZ = -800f;
-        if (GameManager.Instance.playerState == GameManager.PlayerState.normal)
+        float minZ = -500f;
+        if (GameManager.Instance.playerState == GameManager.PlayerState.normal || GameManager.Instance.playerState == GameManager.PlayerState.normal)
         {
-            while (minZ < -799f)
+            while (minZ <= -500f)
             {
                 minZ += 1f;
             }
         }
         else
         {
-            while (minZ > -1301f)
+            while (minZ >= -1000f)
             {
                 minZ -= 1f;
             }

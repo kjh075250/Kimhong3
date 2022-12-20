@@ -13,7 +13,7 @@ public class stateMove : State<BossFSM>
     }
     public override void OnStart()
     {
-        Vector3 introVec = new Vector3(boss.transform.position.x, boss.transform.position.y, 200);
+        Vector3 introVec = new Vector3(boss.transform.position.x, boss.transform.position.y, 600);
         tween = boss.transform.DOMove(introVec, 4f, false);
    }
     public override void OnUpdate(float deltaTime)
@@ -27,6 +27,5 @@ public class stateMove : State<BossFSM>
     }
     public override void OnEnd()
     {
-        DOTween.Clear();
     }
 }
