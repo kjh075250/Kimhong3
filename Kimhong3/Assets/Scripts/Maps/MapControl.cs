@@ -34,7 +34,6 @@ public class MapControl : MonoBehaviour
         for(int i = 0; i < obsCount; i++)
         {
             obs[i].SetActive(false);
-
         }
         switch (index)
         {
@@ -70,6 +69,7 @@ public class MapControl : MonoBehaviour
             nowObs.transform.DOShakePosition(1f, 2f, 10, 90);
             yield return wait;
             nowObs.transform.DOMoveY(0, 0.07f);
+            nowObs.GetComponent<ParticleSystem>().Play();
             GameManager.Instance.cameraShake.Invoke();
         }
     }

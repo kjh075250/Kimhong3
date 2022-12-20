@@ -29,10 +29,19 @@ public class PlayerCollision : MonoBehaviour
             else
             {
                 pe.BreakEffect();
+                GameManager.Instance.cameraShake.Invoke();
+                StartCoroutine(BreakingEffect(other.gameObject));
             }
         }
     }
-
+    IEnumerator BreakingEffect(GameObject obj)
+    {
+        obj.gameObject.GetComponent<ParticleSystem>().Play();
+        Time.timeScale = 0.5f;
+        yield return new WaitForSecondsRealtime(0.2f);
+        obj.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+    }
     IEnumerator DieEffect()
     {
         Time.timeScale = 0f;

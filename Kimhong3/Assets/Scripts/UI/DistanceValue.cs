@@ -19,7 +19,6 @@ public class DistanceValue : MonoBehaviour
     void SetValue()
     {
         float sliderValue =  1 -GameManager.Instance.PlayerBossDistance * 0.001f;
-        Debug.Log(sliderValue);
         slider.value = sliderValue;
     }
 }

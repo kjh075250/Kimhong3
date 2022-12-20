@@ -6,7 +6,9 @@ using DG.Tweening;
 public class PlayerEffect : MonoBehaviour
 {
     [SerializeField]
-    ParticleSystem slideEffects;
+    ParticleSystem slideEffects;   
+    [SerializeField]
+    ParticleSystem hoverEffects;
     [SerializeField]
     ParticleSystem breakEffects; 
     [SerializeField]
@@ -18,6 +20,7 @@ public class PlayerEffect : MonoBehaviour
         if(GameManager.Instance.playerState == GameManager.PlayerState.overdrive)
         {
             slideEffects.Stop();
+            hoverEffects.gameObject.SetActive(false);
             shieldEffects.Play();
         }
         else
@@ -25,17 +28,25 @@ public class PlayerEffect : MonoBehaviour
             shieldEffects.Stop();
         }
     }
+
     public void PlayerShake()
     {
         breakEffects.Play();
-        transform.DOShakePosition(0.3f, 1, 10, 90);
+        transform.DOShakePosition(0.7f, 1, 10, 90).OnComplete(() => { gameObject.SetActive(false); Debug.Log("die"); });
         transform.DORotate(Vector3.up, 1f, RotateMode.FastBeyond360);
     }
+
     public void SlideEffect(bool isSlide)
     {
         if(isSlide) slideEffects.Play();
         else slideEffects.Stop();
     }
+
+    public void HoverEffect(bool ishover)
+    {
+        hoverEffects.gameObject.SetActive(ishover);
+    }
+
     public void BreakEffect()
     {
         defenceEffects.Play();

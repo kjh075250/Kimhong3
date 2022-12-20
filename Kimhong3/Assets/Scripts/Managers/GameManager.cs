@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent cameraShake;
     public UnityEvent playerShake;
+    public UnityEvent bossAttack;
 
     public BossObsSO obsSO;
     public GameObject[] bossObs;

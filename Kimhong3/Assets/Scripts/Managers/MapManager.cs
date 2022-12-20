@@ -11,6 +11,7 @@ public class MapManager : MonoBehaviour
     public GameObject lastObject;
     GameObject[] maps;
     Vector3 nextVec;
+
     private void Awake()
     {
         nextVec = Vector3.zero;
