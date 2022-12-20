@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent cameraShake;
     public UnityEvent playerShake;
     public UnityEvent bossAttack;
+    public UnityEvent GameClear;
 
     public BossObsSO obsSO;
     public GameObject[] bossObs;
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
     public float thunderGage;
     public float ThunderGage => thunderGage;
 
-    public enum PlayerState { normal, overdrive, godMod };
+    public enum PlayerState { normal, overdrive, godMod, bossAttack };
     public PlayerState playerState = PlayerState.normal;
 
     public Light light;
@@ -71,13 +72,21 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("KjhScene");
             Time.timeScale = 1;
         }
-        if(thunderGage >= 99 && Input.GetKey(KeyCode.F))
+        if(thunderGage >= 99)
         {
-            playerState = PlayerState.overdrive;
+            uiManager.GageTextActive(true);
+            if(Input.GetKey(KeyCode.F))
+            {
+                playerState = PlayerState.overdrive;
+            }
         }
         else if(thunderGage <= 1 && playerState == PlayerState.overdrive)
         {
             StartCoroutine(GodMod());
+        }
+        else
+        {
+            uiManager.GageTextActive(false);
         }
     }
 
@@ -116,8 +125,26 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         playerState = PlayerState.normal;
     }
+    public void SetBossAttackState()
+    {
+        StartCoroutine(BossAttackState());
+    }
+    IEnumerator BossAttackState()
+    {
+        playerState = PlayerState.bossAttack;
+        yield return new WaitForSeconds(2.2f);
+        cameraShake.Invoke();
+        boss.GetComponentInChildren<ParticleSystem>().Play();
+        yield return new WaitForSeconds(0.2f);
+        boss.SetActive(false);
+    }
     public void GameOver()
     {
         uiManager.GameOverImage();
+    }
+    public void GameClearUI()
+    {
+        Time.timeScale = 0.5f;
+        uiManager.GameClearImage();
     }
 }

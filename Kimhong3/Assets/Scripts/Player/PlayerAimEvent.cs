@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using DigitalRuby.LightningBolt;
+using UnityEngine.UI;
 
 public class PlayerAimEvent : MonoBehaviour
 {
@@ -31,17 +32,20 @@ public class PlayerAimEvent : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) && GameManager.Instance.ThunderGage >= 5f)
                 {
                     GameManager.Instance.DecreaseThunderGage(5f);
-                    GameManager.Instance.DecreaseThunderGage(-15f);
-                    StartCoroutine(ShootingEffect());
+                    GameManager.Instance.DecreaseThunderGage(-10f);
+                    StartCoroutine(ShootingEffect(hit.collider.gameObject.GetComponentInParent<Canvas>().
+                        GetComponentInParent<EnemyFSM>().gameObject));
                     onShooting.Invoke();
                 }
             }
         }
     }
-    IEnumerator ShootingEffect()
+    IEnumerator ShootingEffect(GameObject obj)
     {
         lineRenderer.enabled = true;
+        obj.GetComponent<ParticleSystem>().Play();
         yield return wait;
+        ObjectPoolManager.ReturnEnemy(obj);
         lineRenderer.enabled = false;
     }
 }

@@ -36,7 +36,7 @@ public class PlayerCollision : MonoBehaviour
     }
     IEnumerator BreakingEffect(GameObject obj)
     {
-        obj.gameObject.GetComponent<ParticleSystem>().Play();
+        obj.gameObject?.GetComponent<ParticleSystem>().Play();
         Time.timeScale = 0.5f;
         yield return new WaitForSecondsRealtime(0.2f);
         obj.gameObject.SetActive(false);

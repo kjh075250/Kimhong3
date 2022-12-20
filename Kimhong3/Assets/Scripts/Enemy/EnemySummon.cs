@@ -19,7 +19,7 @@ public class EnemySummon : MonoBehaviour
 
     private void SetPos()
     {
-        transform.position = new Vector3((Random.Range(18f, 25f)), (Random.Range(6f, 15f)), player.transform.position.z + 30);
+        transform.position = new Vector3((Random.Range(18f, 25f)), (Random.Range(6f, 15f)), player.transform.position.z + 85);
         StartCoroutine("SummonEnemy");
     }
 

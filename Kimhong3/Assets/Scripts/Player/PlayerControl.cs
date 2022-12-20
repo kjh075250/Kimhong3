@@ -9,6 +9,8 @@ public class PlayerControl : MonoBehaviour
     WaitForSeconds wait;
     //플레이어 이펙트들 담은 스크립트
     PlayerEffect playerEffect;
+    //마지막 폭발 연출을 위한 rigidbody
+    Rigidbody rb;
 
     //대쉬 중인지 체크하는 bool
     protected bool isDashing = false;
@@ -17,14 +19,18 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
-        //wait 시간 정해주고, 플레이어 이펙트 캐싱
+        //wait 시간 정해주고, 캐싱
         wait = new WaitForSeconds(2f);
+        rb = GetComponent<Rigidbody>();
         playerEffect = GetComponentInChildren<PlayerEffect>();
     }
 
     private void FixedUpdate()
     {
-        Move();
+        if (GameManager.Instance.playerState != GameManager.PlayerState.bossAttack)
+        {
+            Move();
+        }
         //만약 플레이어 상태가 폭주 모드이고 쉬프트나 스페이스를 누르면 대쉬
         if (GameManager.Instance.playerState == GameManager.PlayerState.overdrive)
         {
@@ -33,6 +39,7 @@ public class PlayerControl : MonoBehaviour
                 Dash();
             }
         }
+
     }
     void Move()
     {
@@ -43,7 +50,7 @@ public class PlayerControl : MonoBehaviour
         Vector3 rotateVec = new Vector3(0, 0, Input.GetAxisRaw("Horizontal") * 30f);
         Tweener rotTween = transform.DORotate(-rotateVec, 1f);
         rotTween.Play();
-        
+
         //자동차의 높이를 지정하기 위해 바닥에 ray를 쏘고 높이를 조정함
         RaycastHit hit;
         //ray가 바닥에 맞았다면
@@ -92,17 +99,32 @@ public class PlayerControl : MonoBehaviour
     {
         isDashing = true;
         //만약 보스가 사정거리 이내에 있다면 보스어택 이벤트 호출
-        if(canBossAttack)
+        if (canBossAttack)
         {
             Debug.Log("BossAttack");
             GameManager.Instance.bossAttack.Invoke();
         }
         //움직인 후에 wait만큼 기다려줌
-        transform.DOMoveZ(20f, 0.2f).OnComplete(()=> transform.DOMoveZ(0f, 1.5f));
+        transform.DOMoveZ(20f, 0.2f).OnComplete(() => transform.DOMoveZ(0f, 1.5f));
         yield return wait;
         isDashing = false;
     }
 
+    public void StartBossAttackDashing()
+    {
+        StartCoroutine(BossAttackDashing());
+    }
+
+    IEnumerator BossAttackDashing()
+    {
+        yield return wait;
+        transform.DOMoveZ(40f, 0.2f).OnComplete(() =>
+        {
+            GameManager.Instance.GameClear.Invoke();
+            transform.DOMove((Vector3.back + Vector3.up) * 50f, 3f);
+        });
+
+    }
     private void OnTriggerStay(Collider col)
     {
         //현재 보스 트리거 이내에 들어와 있다면

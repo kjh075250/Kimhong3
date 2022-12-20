@@ -80,18 +80,26 @@ public class MapControl : MonoBehaviour
         float minZ = -500f;
         if (GameManager.Instance.playerState == GameManager.PlayerState.normal || GameManager.Instance.playerState == GameManager.PlayerState.normal)
         {
-            while (minZ <= -500f)
+            while (minZ <= -500f && minZ != -500)
             {
                 minZ += 1f;
             }
         }
         else
         {
-            while (minZ >= -1000f)
+            while (minZ >= -1000f && minZ != -1000)
             {
                 minZ -= 1f;
             }
         }
-        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, Mathf.Clamp(rb.velocity.z, minZ, 0));
+
+        if(GameManager.Instance.playerState == GameManager.PlayerState.bossAttack)
+        {
+            rb.velocity = Vector3.zero;
+        }
+        else
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, Mathf.Clamp(rb.velocity.z, minZ, 0));
+        }
     }
 }

@@ -12,7 +12,9 @@ public class PlayerEffect : MonoBehaviour
     [SerializeField]
     ParticleSystem breakEffects; 
     [SerializeField]
-    ParticleSystem shieldEffects;   
+    ParticleSystem shieldEffects;
+    [SerializeField]
+    ParticleSystem[] bossEffects;   
     [SerializeField]
     ParticleSystem defenceEffects;
     private void Update()
@@ -50,5 +52,17 @@ public class PlayerEffect : MonoBehaviour
     public void BreakEffect()
     {
         defenceEffects.Play();
+    }
+    public void StartBossatkEffect()
+    {
+        StartCoroutine(bossAttackEffect());
+    }
+    IEnumerator bossAttackEffect()
+    {
+        yield return new WaitForSeconds(0.1f);
+        bossEffects[0].Play();
+        yield return new WaitForSeconds(1.9f);
+        bossEffects[0].Stop();
+        bossEffects[1].Play();
     }
 }

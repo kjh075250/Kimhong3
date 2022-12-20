@@ -37,14 +37,17 @@ public class FollowCam : MonoBehaviour
     {
         StartCoroutine(bossAttack());
     }
+
     IEnumerator bossAttack()
     {
+        isBossAttack = true;
         ParticleSystem pa = GetComponentInChildren<ParticleSystem>();
         pa.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
-        isBossAttack = true;
+
         subcam.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.8f);
+
         subcam.gameObject.SetActive(false); ;
         pa.gameObject.SetActive(true);
         isBossAttack = false;   
