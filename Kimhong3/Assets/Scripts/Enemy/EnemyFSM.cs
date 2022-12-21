@@ -13,17 +13,17 @@ public class EnemyFSM : MonoBehaviour
     private LineRenderer lr;
     private float curTime = 0f;
     private RaycastHit hit;
-
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(MovingSinCos());
-
+        StartCoroutine(Attack());
+    }
+    private void Start()
+    {
         lr = GetComponent<LineRenderer>();
         lr.startWidth = .05f;
         lr.endWidth = .05f;
         lr.enabled = false;
-
-        StartCoroutine(Attack());
     }
 
     void Update()

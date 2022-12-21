@@ -19,6 +19,9 @@ public class PlayerEffect : MonoBehaviour
     [SerializeField]
     ParticleSystem obstacleBreakingEffects;
 
+    [SerializeField]
+    AudioClip breakAudios;
+
     private void Update()
     {
         //만약 폭주상태라면 슬라이딩 연출과 상승 연출 끄고 폭주 연출 키기
@@ -65,6 +68,7 @@ public class PlayerEffect : MonoBehaviour
     public void BreakEffect()
     {
         obstacleBreakingEffects.Play();
+        SoundManager.instance.SFXPlay("break", breakAudios);
     }
 
     //보스를 공격 할 때 연출을 위한 함수
@@ -76,8 +80,10 @@ public class PlayerEffect : MonoBehaviour
     {
         //카메라 연출이나 다른로직을 잠시 기다리고
         yield return new WaitForSeconds(0.1f);
+
         //차징 이펙트 연출 후
         bossEffects[0].Play();
+        dieEffects.GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1.9f);
         //대쉬 연출 실행
         bossEffects[0].Stop();

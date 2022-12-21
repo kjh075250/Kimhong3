@@ -16,7 +16,9 @@ public class PlayerAimEvent : MonoBehaviour
     //waitforseconds 자주 사용하는 것 미리 저장
     WaitForSeconds wait = new WaitForSeconds(0.2f);
 
-
+    //공격 오디오
+    [SerializeField]
+    AudioClip shootAudios;
     void Start()
     {
         //캐싱
@@ -51,6 +53,9 @@ public class PlayerAimEvent : MonoBehaviour
 
                     //화면 흔들림 연출 이벤트 호출
                     GameManager.Instance.cameraShake.Invoke();
+
+                    //사운드 실행
+                    SoundManager.instance.SFXPlay("shoot", shootAudios);
 
                     //번개 연출과 적 죽는 효과를 위한 코루틴 호출
                     //collider가 적의 이미지에 붙어있어서 부모 오브젝트에 있는 EnemyFSM을 찾아 그 오브젝트를 넘겨줌

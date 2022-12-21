@@ -13,9 +13,11 @@ public class PlayerControl : MonoBehaviour
     Rigidbody rb;
 
     //대쉬 중인지 체크하는 bool
-    protected bool isDashing = false;
+    bool isDashing = false;
     //보스가 사정거리 이내에 있는지 체크하는 bool
-    protected bool canBossAttack = false;
+    bool canBossAttack = false;
+    //죽어있는지 체크하는 bool
+    bool isDead = false;
 
     private void Start()
     {
@@ -23,12 +25,13 @@ public class PlayerControl : MonoBehaviour
         wait = new WaitForSeconds(2f);
         rb = GetComponent<Rigidbody>();
         playerEffect = GetComponentInChildren<PlayerEffect>();
+        isDead = false;
     }
 
     private void FixedUpdate()
     {
         //보스 공격 연출중이 아니면 움직임 코드 활성화
-        if (GameManager.Instance.playerState != GameManager.PlayerState.bossAttack)
+        if (GameManager.Instance.playerState != GameManager.PlayerState.bossAttack && !isDead)
         {
             Move();
         }
@@ -81,6 +84,13 @@ public class PlayerControl : MonoBehaviour
                 else playerEffect.HoverEffect(false);
             }
             transform.DOMoveY(PlayerY, 0.2f);
+        }
+        //맵 밖으로 나가면 죽게함
+        else
+        {
+            isDead = true;
+            GameManager.Instance.playerShake.Invoke();
+            StartCoroutine(DieEffect());
         }
         //벡터에 담고 translate로 움직여줌
         Vector3 playerVec = (horVec * Time.deltaTime * 2.5f);
@@ -206,6 +216,7 @@ public class PlayerControl : MonoBehaviour
     IEnumerator DieEffect()
     {
         //시간 멈추는 연출
+        isDead = true;
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(0.2f);
         Time.timeScale = 0.3f;
