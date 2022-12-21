@@ -9,7 +9,7 @@ public class BulletMove : MonoBehaviour
 
     private void Start()
     {
-        plaPos = GameManager.Instance.Player.transform.position;
+        plaPos = GameManager.Instance.Player.position;
         transform.LookAt(plaPos);
         InvokeRepeating("Die", 0.5f, 5f);
     }

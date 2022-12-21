@@ -27,6 +27,7 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //보스 공격 연출중이 아니면 움직임 코드 활성화
         if (GameManager.Instance.playerState != GameManager.PlayerState.bossAttack)
         {
             Move();
@@ -67,6 +68,7 @@ public class PlayerControl : MonoBehaviour
                     PlayerY = hit.point.y + 0.4f;
                     playerEffect.SlideEffect(true);
                 }
+                //누르지 않고있으면 이펙트 꺼줌
                 else playerEffect.SlideEffect(false);
 
                 //스페이스바를 누르면 상승
@@ -75,6 +77,7 @@ public class PlayerControl : MonoBehaviour
                     PlayerY = hit.point.y + 5f;
                     playerEffect.HoverEffect(true);
                 }
+                //누르지 않고있으면 이펙트 꺼줌
                 else playerEffect.HoverEffect(false);
             }
             transform.DOMoveY(PlayerY, 0.2f);
@@ -92,6 +95,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
+        //현재 대쉬중이 아니라면 대쉬 시작 
         StartCoroutine(Dashing());
     }
 
@@ -112,14 +116,18 @@ public class PlayerControl : MonoBehaviour
 
     public void StartBossAttackDashing()
     {
+        //보스가 공격 가능 범위 안에 있을 때
         StartCoroutine(BossAttackDashing());
     }
 
     IEnumerator BossAttackDashing()
     {
+        //보스 공격 연출을 위해 잠시 기다린 뒤
         yield return wait;
+        //플레이어 앞으로 움직이는 연출
         transform.DOMoveZ(40f, 0.2f).OnComplete(() =>
         {
+            //앞으로 움직이는 연출이 끝나면 게임매니저의 게임오버 이벤트 호출, 뒤로 날아가는 연출
             GameManager.Instance.GameClear.Invoke();
             transform.DOMove((Vector3.back + Vector3.up) * 50f, 3f);
         });
@@ -133,6 +141,7 @@ public class PlayerControl : MonoBehaviour
             canBossAttack = true;
         }
     }
+
     void OnTriggerExit(Collider col)
     {
         //보스 트리거 안에서 나가거나 들어와있지 않다면
@@ -141,5 +150,68 @@ public class PlayerControl : MonoBehaviour
             canBossAttack = false;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //게임매니저에서 현재 에너지 게이지 값을 가져옴
+        float tg = GameManager.Instance.thunderGage;
+
+        //만약 폭주 상태가 아니고 적의 공격"Bullet"에 맞는다면 에너지 게이지를 깎는 로직
+        if (other.gameObject.CompareTag("Bullet") && GameManager.Instance.playerState == GameManager.PlayerState.normal)
+        {
+            //게이지 값을 0 아래로 가거나 100이상으로 가지 않게 Clamp
+            tg = Mathf.Clamp(tg, 0f, 100f);
+            //게이지 값을 깎는다
+            tg -= 15f;
+            //깎은 값을 적용
+            GameManager.Instance.thunderGage = tg;
+        }
+
+        //장애물에 부딪혔다면
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            //노말 상태라면(폭주, 보스 연출모드가 아님)
+            if (GameManager.Instance.playerState == GameManager.PlayerState.normal)
+            {
+                //playerShake라는 연출 이벤트를 호출하고
+                GameManager.Instance.playerShake.Invoke();
+                //게임오버 하는 코루틴 호출
+                StartCoroutine(DieEffect());
+            }
+            else
+            {
+                //노말 상태가 아니라면
+
+                //장애물 부수는 파티클 켜고 연출 코루틴 함수 호출
+                playerEffect.BreakEffect();
+                StartCoroutine(BreakingEffect(other.gameObject));
+                
+                //화면 흔들림 효과 이벤트 호출
+                GameManager.Instance.cameraShake.Invoke();
+            }
+        }
+    }
+
+    IEnumerator BreakingEffect(GameObject obj)
+    {
+        //부딪힌 장애물에 파티클시스템을 가져오고 있다면 플레이
+        obj.gameObject?.GetComponent<ParticleSystem>().Play();
+        //시간 잠깐 느려지게 연출
+        Time.timeScale = 0.5f;
+        yield return new WaitForSecondsRealtime(0.2f);
+        //장애물을 없앰
+        obj.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    IEnumerator DieEffect()
+    {
+        //시간 멈추는 연출
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(0.2f);
+        Time.timeScale = 0.3f;
+        //게임 매니저의 게임오버 함수 호출(UI 띄우기 등등)
+        GameManager.Instance.GameOver();
+    }
+
 }
 

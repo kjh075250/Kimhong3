@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class stateIdle : State<BossFSM>
 {
-    GameObject boss;
+    //현재 상태가 진행된 시간
     float time;
     public override void OnAwake()
     {
-        boss = GameManager.Instance.Boss;
     }
     public override void OnStart()
     {
+        //시간 0으로 초기화
         time = 0f;
     }
     public override void OnUpdate(float deltaTime)
     {
         time += deltaTime;
         int randomAttack = Random.Range(0,2);
-        if(time > 5f)
+        //시간이 3초가 지났다면 randomAttack의 값에 따라 랜덤으로 첫번째 혹은 두번째 공격을 실행함
+        if(time > 3f)
         {
             switch(randomAttack)
             {

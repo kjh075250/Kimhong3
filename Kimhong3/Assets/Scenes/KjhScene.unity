@@ -850,12 +850,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slideEffects: {fileID: 1930612898}
   hoverEffects: {fileID: 1127148454}
-  breakEffects: {fileID: 1393693086}
-  shieldEffects: {fileID: 301096376}
+  dieEffects: {fileID: 1393693086}
+  overDriveEffects: {fileID: 301096376}
   bossEffects:
   - {fileID: 1293372434}
   - {fileID: 1750147167}
-  defenceEffects: {fileID: 862221299}
+  obstacleBreakingEffects: {fileID: 862221299}
 --- !u!4 &230707216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9045295744720704521, guid: 7be4cb065e6ee434d91203eb84a57eb3, type: 3}
@@ -1218,7 +1218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3817b979a6f6aaf45a208d739ae30013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1435503205}
+  player: {fileID: 1435503206}
   boss: {fileID: 1124738154}
   cameraShake:
     m_PersistentCalls:
@@ -1347,7 +1347,6 @@ MonoBehaviour:
   thunderGage: 0
   playerState: 0
   light: {fileID: 499807540}
-  dashColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &458743475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19149,7 +19148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019b67bc650a48243af7d9a487ec1077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1366932441}
+  Campos: {fileID: 1366932441}
   subcam: {fileID: 1553283501}
 --- !u!198 &1930612898 stripped
 ParticleSystem:
